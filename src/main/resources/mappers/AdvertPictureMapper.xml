@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.AdvertPictureDao">
+    <resultMap id="AdvertPictureResult" type="AdvertPicture">
+        <result property="id" column="id"></result>
+        <result property="userId" column="userId"></result>
+        <result property="advertPaths" column="advertPaths"></result>
+        <result property="createDate" column="createDate"></result>
+        <result property="type" column="type"></result>
+    </resultMap>
+    <select id="getAvertPitureByType" parameterType="String" resultMap="AdvertPictureResult">
+        SELECT * FROM advert_picture WHERE type=#{type}
+    </select>
+    <insert id="insertAdvertPicture" parameterType="AdvertPicture">
+        INSERT INTO advert_picture(userId, advertPaths, createDate, type) VALUE (#{userId}, #{advertPaths}, #{advertPaths}, #{createDate}, #{type})
+    </insert>
+
+</mapper>
