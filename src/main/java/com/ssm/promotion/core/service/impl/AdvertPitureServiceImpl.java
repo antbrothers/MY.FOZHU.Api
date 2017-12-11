@@ -21,7 +21,7 @@ public class AdvertPitureServiceImpl implements AdvertPictureService{
         return advertPictureDao.getAvertPitureByType(type);
     }
     @Override
-    public int insertAdvertPicture(AdvertPicture advertPicture){
+    public Void insertAdvertPicture(AdvertPicture advertPicture){
         return advertPictureDao.insertAdvertPicture(advertPicture);
     }
 }

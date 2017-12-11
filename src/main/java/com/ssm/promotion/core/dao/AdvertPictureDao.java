@@ -22,6 +22,6 @@ public interface AdvertPictureDao {
      * 插入广告
      * @param advertPicture
      */
-    public int insertAdvertPicture(AdvertPicture advertPicture);
+    public Void  insertAdvertPicture(AdvertPicture advertPicture);
 
 }

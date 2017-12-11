@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface AdvertPictureService {
     public List<AdvertPicture> getAvertPitureByType (String type);
-    public int insertAdvertPicture(AdvertPicture advertPicture);
+    public Void insertAdvertPicture(AdvertPicture advertPicture);
 }

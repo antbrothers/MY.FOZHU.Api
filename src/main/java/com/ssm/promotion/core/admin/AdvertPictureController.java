@@ -4,11 +4,16 @@ import com.ssm.promotion.core.common.Result;
 import com.ssm.promotion.core.common.ResultGenerator;
 import com.ssm.promotion.core.entity.AdvertPicture;
 import com.ssm.promotion.core.service.AdvertPictureService;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.aspectj.util.FileUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -43,14 +48,42 @@ public class AdvertPictureController {
      * @param advertPictures
      * @return
      */
-    @RequestMapping(value = "insertAdvertPic", method = RequestMethod.POST)
+   /* @RequestMapping(value = "insertAdvertPic", method = RequestMethod.POST)
     @ResponseBody
-    public Result insertAdvertPic(AdvertPicture advertPictures) throws Exception {
+    public Result insertAdvertPic(@ModelAttribute AdvertPicture advertPictures) throws Exception {
       int advertPictureModel = advertPictureService.insertAdvertPicture(advertPictures);
       Result result = ResultGenerator.getSuccessResult();
       result.setData(advertPictureModel);
         log.info("request: advert/insertAdvertPic");
       return result;
+    }*/
+
+    @RequestMapping(value = "testFileInsert", method = RequestMethod.POST)
+    @ResponseBody
+    public Result testFileInsert(AdvertPicture advertPicture, @RequestParam MultipartFile[] file, HttpServletRequest request) throws Exception{
+        for (MultipartFile myfile: file) {
+            if (myfile.isEmpty()) {
+                System.out.println("文件未上传");
+            } else {
+                System.out.println("文件长度: " + myfile.getSize());
+                System.out.println("文件类型: " + myfile.getContentType());
+                System.out.println("文件名称: " + myfile.getName());
+                System.out.println("文件原名: " + myfile.getOriginalFilename());
+
+
+                // String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+                String realPath = "E:\\工作目录\\java工作\\main\\MY.FOZHU.Api\\src\\main\\webapp\\upload";
+                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, myfile.getOriginalFilename()));
+                advertPicture.setAdvertPaths(realPath);
+            }
+        }
+        Void model = advertPictureService.insertAdvertPicture(advertPicture);
+        Result result = ResultGenerator.getSuccessResult();
+        result.setData(model);
+        return result;
     }
+
+
+
 
 }

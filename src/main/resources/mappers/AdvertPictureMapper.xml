@@ -14,7 +14,7 @@
         SELECT * FROM advert_picture WHERE type=#{type}
     </select>
     <insert id="insertAdvertPicture" parameterType="AdvertPicture">
-        INSERT INTO advert_picture(userId, advertPaths, createDate, type) VALUE (#{userId}, #{advertPaths}, #{advertPaths}, #{createDate}, #{type})
+        INSERT INTO advert_picture(userId, advertPaths, createDate, type) VALUES (#{userId}, #{advertPaths}, #{createDate}, #{type})
     </insert>
 
 </mapper>
