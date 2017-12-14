@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.aspectj.util.FileUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -26,6 +27,7 @@ public class AdvertPictureController {
     private AdvertPictureService advertPictureService;
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(AdvertPictureController.class);// 日志文件
+    private Object ServletRequestAttributes;
 
     /**
      * 根据 type 查找广告数据
@@ -45,19 +47,9 @@ public class AdvertPictureController {
 
     /**
      * 插入 广告图片
-     * @param advertPictures
+     * @param
      * @return
      */
-   /* @RequestMapping(value = "insertAdvertPic", method = RequestMethod.POST)
-    @ResponseBody
-    public Result insertAdvertPic(@ModelAttribute AdvertPicture advertPictures) throws Exception {
-      int advertPictureModel = advertPictureService.insertAdvertPicture(advertPictures);
-      Result result = ResultGenerator.getSuccessResult();
-      result.setData(advertPictureModel);
-        log.info("request: advert/insertAdvertPic");
-      return result;
-    }*/
-
     @RequestMapping(value = "testFileInsert", method = RequestMethod.POST)
     @ResponseBody
     public Result testFileInsert(AdvertPicture advertPicture, @RequestParam MultipartFile[] file, HttpServletRequest request) throws Exception{
@@ -69,21 +61,30 @@ public class AdvertPictureController {
                 System.out.println("文件类型: " + myfile.getContentType());
                 System.out.println("文件名称: " + myfile.getName());
                 System.out.println("文件原名: " + myfile.getOriginalFilename());
-
-
-                // String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
                 String realPath = "E:\\工作目录\\java工作\\main\\MY.FOZHU.Api\\src\\main\\webapp\\upload";
                 FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, myfile.getOriginalFilename()));
                 advertPicture.setAdvertPaths(realPath);
             }
         }
-        Void model = advertPictureService.insertAdvertPicture(advertPicture);
+        advertPictureService.insertAdvertPicture(advertPicture);
         Result result = ResultGenerator.getSuccessResult();
-        result.setData(model);
+        result.setData(advertPicture);
         return result;
     }
 
-
-
-
+    /**
+     * 删除广告 图片
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "deleteAdvertPicById/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result deleteAdvertPicById (@PathVariable("id") String id) {
+        if (id.isEmpty()) {
+            System.out.println("参数id不能为空");
+        }
+        advertPictureService.deleteAdvertPicById(id);
+        Result result = ResultGenerator.getSuccessResult();
+        return  result;
+    }
 }

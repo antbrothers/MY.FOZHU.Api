@@ -22,6 +22,12 @@ public interface AdvertPictureDao {
      * 插入广告
      * @param advertPicture
      */
-    public Void  insertAdvertPicture(AdvertPicture advertPicture);
+    public void insertAdvertPicture(AdvertPicture advertPicture);
+
+    /**
+     * 删除广告图片
+     * @param id
+     */
+    public void deleteAdvertPicById(String id);
 
 }
