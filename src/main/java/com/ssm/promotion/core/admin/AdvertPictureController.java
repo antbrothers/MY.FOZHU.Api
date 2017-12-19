@@ -13,8 +13,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,8 +65,12 @@ public class AdvertPictureController {
                 System.out.println("文件名称: " + myfile.getName());
                 System.out.println("文件原名: " + myfile.getOriginalFilename());
                 String realPath = "E:\\工作目录\\java工作\\main\\MY.FOZHU.Api\\src\\main\\webapp\\upload";
-                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, myfile.getOriginalFilename()));
-                advertPicture.setAdvertPaths(realPath);
+                String imageName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()).concat(myfile.getOriginalFilename());
+                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, imageName));
+                advertPicture.setType("1");
+                advertPicture.setCreateDate(new Date());
+                advertPicture.setUserId("admin");
+                advertPicture.setAdvertPaths("/upload/" + imageName);
             }
         }
         advertPictureService.insertAdvertPicture(advertPicture);
